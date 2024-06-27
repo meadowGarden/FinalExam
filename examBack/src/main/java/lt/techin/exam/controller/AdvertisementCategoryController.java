@@ -28,7 +28,7 @@ public class AdvertisementCategoryController {
     @PostMapping
     public ResponseEntity<?> addAdvertisementCategory(@RequestBody AdvertisementCategoryDTO dto) {
         log.info("request to add ad category, name {}", dto.getCategoryName());
-        final AdvertisementCategoryResponse response = advertisementCategoryService.addBookCategory(dto);
+        final AdvertisementCategoryResponse response = advertisementCategoryService.addAdvertCategory(dto);
         final AdvertisementCategory advertisementCategory = response.getBookCategory();
         final HttpStatus status = response.getStatus();
         return new ResponseEntity<>(advertisementCategory, status);
@@ -44,7 +44,7 @@ public class AdvertisementCategoryController {
     ) {
         final var request = new AdvertisementCategoryListRequest(pageNumber, pageSize, contains, sortBy, sortAsc);
         log.info("request to retrieve list of book categories");
-        final AdvertisementCategoryListResponse response = advertisementCategoryService.retrieveAllBookCategories(request);
+        final AdvertisementCategoryListResponse response = advertisementCategoryService.retrieveAllAdCategories(request);
         final Page<AdvertisementCategory> page = response.getBookCategories();
         final HttpStatus status = response.getStatus();
         return new ResponseEntity<>(page, status);

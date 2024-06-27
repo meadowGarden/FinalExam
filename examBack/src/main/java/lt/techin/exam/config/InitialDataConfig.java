@@ -1,6 +1,10 @@
 package lt.techin.exam.config;
 
+import lt.techin.exam.entity.Advertisement;
+import lt.techin.exam.entity.AdvertisementCategory;
 import lt.techin.exam.entity.User;
+import lt.techin.exam.repository.AdvertisementCategoryRepository;
+import lt.techin.exam.repository.AdvertisementRepository;
 import lt.techin.exam.repository.UserRepository;
 import lt.techin.exam.utilities.UserRole;
 import org.springframework.boot.CommandLineRunner;
@@ -13,22 +17,46 @@ public class InitialDataConfig {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AdvertisementRepository advertisementRepository;
+    private final AdvertisementCategoryRepository advertisementCategoryRepository;
 
     public InitialDataConfig(
             UserRepository userRepository,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder,
+            AdvertisementRepository advertisementRepository,
+            AdvertisementCategoryRepository advertisementCategoryRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.advertisementRepository = advertisementRepository;
+        this.advertisementCategoryRepository = advertisementCategoryRepository;
     }
 
     @Bean
     public CommandLineRunner initialDataRunner() {
         return runner -> {
             addUsers();
+            addAds();
+            addAdCategory();
         };
     }
 
 
+    public void addAdCategory() {
+        AdvertisementCategory adCat01 = AdvertisementCategory.builder()
+                .categoryName("gyvūnai")
+                .build();
+        advertisementCategoryRepository.save(adCat01);
+    }
+
+    public void addAds() {
+        final Advertisement ad01 = Advertisement.builder()
+                .adName("parduodu drambliuką")
+                .adDescription("beveik naujas, pilkos spalvos")
+                .price(15267)
+                .city("Kaunas")
+                .build();
+        advertisementRepository.save(ad01);
+    }
 
     public void addUsers() {
         final User user00 = User.builder()

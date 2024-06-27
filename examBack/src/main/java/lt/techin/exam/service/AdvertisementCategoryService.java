@@ -27,45 +27,45 @@ import java.util.Optional;
 @Slf4j
 public class AdvertisementCategoryService {
 
-    private final AdvertisementCategoryRepository bookCategoryRepository;
-    private final AdvertisementRepository bookRepository;
+    private final AdvertisementCategoryRepository advertisementCategoryRepository;
+    private final AdvertisementRepository advertisementRepository;
 
     @Autowired
-    public AdvertisementCategoryService(AdvertisementCategoryRepository bookCategoryRepository, AdvertisementRepository bookRepository) {
-        this.bookCategoryRepository = bookCategoryRepository;
-        this.bookRepository = bookRepository;
+    public AdvertisementCategoryService(AdvertisementCategoryRepository advertisementCategoryRepository, AdvertisementRepository advertisementRepository) {
+        this.advertisementCategoryRepository = advertisementCategoryRepository;
+        this.advertisementRepository = advertisementRepository;
     }
 
 
     @Transactional
-    public AdvertisementCategoryResponse addBookCategory(AdvertisementCategoryDTO dto) {
-        final Optional<AdvertisementCategory> bookCategory = bookCategoryRepository
+    public AdvertisementCategoryResponse addAdvertCategory(AdvertisementCategoryDTO dto) {
+        final Optional<AdvertisementCategory> advertisementCategory = advertisementCategoryRepository
                 .findByCategoryNameIgnoreCase(dto.getCategoryName());
 
-        if (bookCategory.isEmpty()) {
-            final AdvertisementCategory bookCategoryToAdd = AdvertisementCategoryMapper.DTOToAdvertCategory(dto);
+        if (advertisementCategory.isEmpty()) {
+            final AdvertisementCategory advertCategoryToAdd = AdvertisementCategoryMapper.DTOToAdvertCategory(dto);
 
             if (dto.getAdvertisements() != null) {
                 final List<Advertisement> advertisements = new ArrayList<>();
                 for (Advertisement a : dto.getAdvertisements()) {
-                    final Optional<Advertisement> bookToAdd = bookRepository
+                    final Optional<Advertisement> bookToAdd = advertisementRepository
                             .findById(a.getId());
                     bookToAdd.ifPresent(advertisements::add);
                 }
-                bookCategoryToAdd.setAdvertisements(advertisements);
+                advertCategoryToAdd.setAdvertisements(advertisements);
             }
 
-            final AdvertisementCategory savedBookCategory = bookCategoryRepository.save(bookCategoryToAdd);
-            log.info("added book category, with id {}", savedBookCategory.getId());
+            final AdvertisementCategory savedBookCategory = advertisementCategoryRepository.save(advertCategoryToAdd);
+            log.info("added ad category, with id {}", savedBookCategory.getId());
             return new AdvertisementCategoryResponse(savedBookCategory, HttpStatus.CREATED);
         }
-        final AdvertisementCategory bookCategoryInRepository = bookCategory.get();
-        log.info("book category already in repository, id {}", bookCategoryInRepository.getId());
+        final AdvertisementCategory bookCategoryInRepository = advertisementCategory.get();
+        log.info("ad category already in repository, id {}", bookCategoryInRepository.getId());
         return new AdvertisementCategoryResponse(bookCategoryInRepository, HttpStatus.OK);
     }
 
 
-    public AdvertisementCategoryListResponse retrieveAllBookCategories(AdvertisementCategoryListRequest request) {
+    public AdvertisementCategoryListResponse retrieveAllAdCategories(AdvertisementCategoryListRequest request) {
         final Sort.Direction direction = request.isSortAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
         final Sort sort = Sort.by(direction, request.getSortBy());
 
@@ -75,23 +75,23 @@ public class AdvertisementCategoryService {
 
         final Pageable pageable = PageRequest.of(--pageNumber, pageSize, sort);
         if (contains == null || contains.isEmpty()) {
-            log.info("retrieving all book categories in repository");
-            Page<AdvertisementCategory> page = bookCategoryRepository.findAll(pageable);
+            log.info("retrieving all ad categories in repository");
+            Page<AdvertisementCategory> page = advertisementCategoryRepository.findAll(pageable);
             return new AdvertisementCategoryListResponse(page, HttpStatus.OK);
         }
 
-        log.info("retrieving book categories containing {}", contains);
-        Page<AdvertisementCategory> page = bookCategoryRepository
+        log.info("retrieving ad categories containing {}", contains);
+        Page<AdvertisementCategory> page = advertisementCategoryRepository
                 .findByCategoryNameContainingIgnoreCase(pageable, request.getContains());
         return new AdvertisementCategoryListResponse(page, HttpStatus.OK);
     }
 
 
     public AdvertisementCategoryResponse retrieveBookCategoryByName(String categoryName) {
-        final Optional<AdvertisementCategory> bookCategory = bookCategoryRepository.findByCategoryNameIgnoreCase(categoryName);
+        final Optional<AdvertisementCategory> advertisementCategory = advertisementCategoryRepository.findByCategoryNameIgnoreCase(categoryName);
 
-        if (bookCategory.isPresent()) {
-            final AdvertisementCategory bookCategoryToRetrieve = bookCategory.get();
+        if (advertisementCategory.isPresent()) {
+            final AdvertisementCategory bookCategoryToRetrieve = advertisementCategory.get();
             log.info("retrieving book category with name {}", bookCategoryToRetrieve.getCategoryName());
             return new AdvertisementCategoryResponse(bookCategoryToRetrieve, HttpStatus.OK);
         }
@@ -102,7 +102,7 @@ public class AdvertisementCategoryService {
 
 
     public AdvertisementCategoryResponse updateBookCategoryByName(String categoryName, AdvertisementCategoryDTO dto) {
-        final Optional<AdvertisementCategory> bookCategory = bookCategoryRepository.findByCategoryNameIgnoreCase(categoryName);
+        final Optional<AdvertisementCategory> bookCategory = advertisementCategoryRepository.findByCategoryNameIgnoreCase(categoryName);
 
         if (bookCategory.isPresent()) {
             final AdvertisementCategory bookCategoryToUpdate = bookCategory.get();
@@ -117,24 +117,24 @@ public class AdvertisementCategoryService {
 
 
     public HttpStatus deleteBookCategoryByName(String categoryName) {
-        final Optional<AdvertisementCategory> bookCategory = bookCategoryRepository.findByCategoryNameIgnoreCase(categoryName);
+        final Optional<AdvertisementCategory> advertisementCategory = advertisementCategoryRepository.findByCategoryNameIgnoreCase(categoryName);
 
-        if (bookCategory.isPresent()) {
-            final AdvertisementCategory categoryToDelete = bookCategory.get();
+        if (advertisementCategory.isPresent()) {
+            final AdvertisementCategory categoryToDelete = advertisementCategory.get();
 
             for (Advertisement book : categoryToDelete.getAdvertisements()) {
                 book.getCategories().remove(categoryToDelete);
-                bookRepository.save(book);
+                advertisementRepository.save(book);
             }
             categoryToDelete.getAdvertisements().clear();
-            bookCategoryRepository.save(categoryToDelete);
+            advertisementCategoryRepository.save(categoryToDelete);
 
-            bookCategoryRepository.deleteById(categoryToDelete.getId());
-            log.info("book category with name {} has been deleted", categoryName);
+            advertisementCategoryRepository.deleteById(categoryToDelete.getId());
+            log.info("ad category with name {} has been deleted", categoryName);
             return HttpStatus.NO_CONTENT;
         }
 
-        log.info("deletion failed, book category with name {} was not found", categoryName);
+        log.info("deletion failed, ad category with name {} was not found", categoryName);
         return HttpStatus.NOT_FOUND;
     }
 }
