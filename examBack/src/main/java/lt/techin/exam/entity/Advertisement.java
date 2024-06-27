@@ -29,7 +29,7 @@ public class Advertisement {
     private String adDescription;
 
     @Column(name = "price")
-    private double price;
+        private double price;
 
     @Column(name = "city")
     private String city;

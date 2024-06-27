@@ -1,0 +1,5 @@
+.createAccountCard {
+  background-color: var(--modal-background-color);
+
+  display: grid;
+}

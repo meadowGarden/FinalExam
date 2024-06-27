@@ -7,7 +7,7 @@ import lt.techin.exam.entity.Advertisement;
 import lt.techin.exam.entity.AdvertisementCategory;
 import lt.techin.exam.repository.AdvertisementCategoryRepository;
 import lt.techin.exam.repository.AdvertisementRepository;
-import lt.techin.exam.request.book.AdvertisementListRequest;
+import lt.techin.exam.request.advertisement.AdvertisementListRequest;
 import lt.techin.exam.response.book.AdvertisementListResponse;
 import lt.techin.exam.response.book.AdvertisementResponse;
 import lt.techin.exam.utilities.mapper.AdvertisementMapper;

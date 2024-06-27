@@ -1,0 +1,4 @@
+.pageContainer {
+  background-color: var(--site-background-color);
+  padding: 1.5em;
+}

@@ -1,4 +1,4 @@
-package lt.techin.exam.request.book;
+package lt.techin.exam.request.advertisement;
 
 import lombok.*;
 

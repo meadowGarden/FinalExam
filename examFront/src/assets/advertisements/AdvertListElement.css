@@ -1,0 +1,14 @@
+.advertListElement {
+  height: 2em;
+  display: grid;
+  grid-template-columns: 6fr 2fr 2fr;
+  gap: 2em;
+
+  background-color: var(--list-element-color);
+  padding: 0.25em;
+}
+
+.advertListElement:hover {
+  background-color: var(--list-element-color-hover);
+  cursor: pointer;
+}

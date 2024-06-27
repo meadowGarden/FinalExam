@@ -1,0 +1,16 @@
+.advertDataCard {
+
+  background-color: var(--site-background-color);
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr 1fr;
+  gap: 0.5em;
+
+  padding: 1em;
+
+}
+
+.paginationElement {
+  display: grid;
+  grid-template-columns: 1fr;
+  text-align: center;
+}

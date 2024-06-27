@@ -1,4 +1,4 @@
-package lt.techin.exam.response.bookCategory;
+package lt.techin.exam.response.advertisementCategory;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,14 +8,14 @@ import org.springframework.http.HttpStatus;
 @Setter
 @Getter
 public class AdvertisementCategoryResponse {
-    private AdvertisementCategory bookCategory;
+    private AdvertisementCategory advertisementCategory;
     private HttpStatus status;
 
     public AdvertisementCategoryResponse() {
     }
 
-    public AdvertisementCategoryResponse(AdvertisementCategory bookCategory, HttpStatus status) {
-        this.bookCategory = bookCategory;
+    public AdvertisementCategoryResponse(AdvertisementCategory advertisementCategory, HttpStatus status) {
+        this.advertisementCategory = advertisementCategory;
         this.status = status;
     }
 }

@@ -1,0 +1,14 @@
+.mainPage {
+  background-color: var(--site-background-color);
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.mainAuthContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  text-align: center;
+  align-self: center;
+  width: 5em;
+}

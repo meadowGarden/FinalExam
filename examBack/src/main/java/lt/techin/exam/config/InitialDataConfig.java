@@ -46,6 +46,16 @@ public class InitialDataConfig {
                 .categoryName("gyvūnai")
                 .build();
         advertisementCategoryRepository.save(adCat01);
+
+
+
+
+
+
+
+
+
+
     }
 
     public void addAds() {
@@ -56,6 +66,21 @@ public class InitialDataConfig {
                 .city("Kaunas")
                 .build();
         advertisementRepository.save(ad01);
+
+        final Advertisement ad02 = Advertisement.builder()
+                .adName("plaunu langus")
+                .adDescription("atsivežu savo priemones, taikau nuolaidas senjorams")
+                .price(20)
+                .city("Klaipėda")
+                .build();
+        advertisementRepository.save(ad02);
+
+        final Advertisement ad03 = Advertisement.builder()
+                .adName("persikrautimo paslaugos visoje Lietuvoje")
+                .adDescription("40, 65 ir 90 kubų talpos automobiliai, galutinė kaina priklauso nuo kilometrų")
+                .price(150)
+                .build();
+        advertisementRepository.save(ad03);
     }
 
     public void addUsers() {

@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import lt.techin.exam.dto.AdvertisementCategoryDTO;
 import lt.techin.exam.entity.AdvertisementCategory;
 import lt.techin.exam.request.category.AdvertisementCategoryListRequest;
-import lt.techin.exam.response.bookCategory.AdvertisementCategoryListResponse;
-import lt.techin.exam.response.bookCategory.AdvertisementCategoryResponse;
+import lt.techin.exam.response.advertisementCategory.AdvertisementCategoryListResponse;
+import lt.techin.exam.response.advertisementCategory.AdvertisementCategoryResponse;
 import lt.techin.exam.service.AdvertisementCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,7 +29,7 @@ public class AdvertisementCategoryController {
     public ResponseEntity<?> addAdvertisementCategory(@RequestBody AdvertisementCategoryDTO dto) {
         log.info("request to add ad category, name {}", dto.getCategoryName());
         final AdvertisementCategoryResponse response = advertisementCategoryService.addAdvertCategory(dto);
-        final AdvertisementCategory advertisementCategory = response.getBookCategory();
+        final AdvertisementCategory advertisementCategory = response.getAdvertisementCategory();
         final HttpStatus status = response.getStatus();
         return new ResponseEntity<>(advertisementCategory, status);
     }
@@ -43,34 +43,34 @@ public class AdvertisementCategoryController {
             @RequestParam(defaultValue = "true") boolean sortAsc
     ) {
         final var request = new AdvertisementCategoryListRequest(pageNumber, pageSize, contains, sortBy, sortAsc);
-        log.info("request to retrieve list of book categories");
+        log.info("request to retrieve list of ad categories");
         final AdvertisementCategoryListResponse response = advertisementCategoryService.retrieveAllAdCategories(request);
-        final Page<AdvertisementCategory> page = response.getBookCategories();
+        final Page<AdvertisementCategory> page = response.getAdvertisementCategories();
         final HttpStatus status = response.getStatus();
         return new ResponseEntity<>(page, status);
     }
 
     @GetMapping(path = "/{categoryName}")
     public ResponseEntity<?> retrieveBookCategoryByName(@PathVariable String categoryName) {
-        log.info("request to retrieve book categories with name {}", categoryName);
+        log.info("request to retrieve ad categories with name {}", categoryName);
         final AdvertisementCategoryResponse response = advertisementCategoryService.retrieveBookCategoryByName(categoryName);
-        final AdvertisementCategory bookCategory = response.getBookCategory();
+        final AdvertisementCategory bookCategory = response.getAdvertisementCategory();
         final HttpStatus status = response.getStatus();
         return new ResponseEntity<>(bookCategory, status);
     }
 
     @PutMapping(path = "/{categoryName}")
     public ResponseEntity<?> updateBookCategoryByName(@PathVariable String categoryName, @RequestBody AdvertisementCategoryDTO dto) {
-        log.info("request to update book category with name {}", categoryName);
+        log.info("request to update ad category with name {}", categoryName);
         final AdvertisementCategoryResponse response = advertisementCategoryService.updateBookCategoryByName(categoryName, dto);
-        final AdvertisementCategory bookCategory = response.getBookCategory();
+        final AdvertisementCategory bookCategory = response.getAdvertisementCategory();
         final HttpStatus status = response.getStatus();
         return new ResponseEntity<>(bookCategory, status);
     }
 
     @DeleteMapping(path = "/{categoryName}")
     public ResponseEntity<?> deleteBookCategoryByName(@PathVariable String categoryName) {
-        log.info("request to delete book category with name {}", categoryName);
+        log.info("request to delete ad category with name {}", categoryName);
         final HttpStatus status = advertisementCategoryService.deleteBookCategoryByName(categoryName);
         return new ResponseEntity<>(status);
     }

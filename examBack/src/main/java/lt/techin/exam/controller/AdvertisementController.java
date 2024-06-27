@@ -3,7 +3,7 @@ package lt.techin.exam.controller;
 import lombok.extern.slf4j.Slf4j;
 import lt.techin.exam.dto.AdvertisementDTO;
 import lt.techin.exam.entity.Advertisement;
-import lt.techin.exam.request.book.AdvertisementListRequest;
+import lt.techin.exam.request.advertisement.AdvertisementListRequest;
 import lt.techin.exam.response.book.AdvertisementListResponse;
 import lt.techin.exam.response.book.AdvertisementResponse;
 import lt.techin.exam.service.AdvertisementService;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "/api/adverts")
+@RequestMapping(path = "/api/advertisements")
 @Slf4j
 public class AdvertisementController {
 
