@@ -1,3 +1,10 @@
-.notFoundPage {
+.picEmpty {
+  width: 100%;
+}
+
+.containerNotFound {
+  padding: 3em;
   background-color: var(--site-background-color);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }

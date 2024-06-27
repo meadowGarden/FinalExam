@@ -6,12 +6,11 @@ import lt.techin.exam.entity.Advertisement;
 public class AdvertisementMapper {
 
     public static Advertisement DTOToAdvert(AdvertisementDTO dto) {
-        return new Advertisement(
-                dto.getAdName(),
-                dto.getAdDescription(),
-                dto.getPrice(),
-                dto.getCity(),
-                dto.getCategories()
-        );
+        return Advertisement.builder()
+                .adName(dto.getAdName())
+                .adDescription(dto.getAdDescription())
+                .price(dto.getPrice())
+                .city(dto.getCity())
+                .build();
     }
 }

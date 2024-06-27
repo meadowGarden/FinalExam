@@ -50,8 +50,6 @@ const CategoryDataCard = ({ categories, setCategories }) => {
     }
   }, [paginationSettings, setCategories, token]);
 
-  console.log(categories);
-
   useEffect(
     (prevSettings) => {
       setPaginationSettings({
@@ -111,7 +109,7 @@ const CategoryDataCard = ({ categories, setCategories }) => {
         <section className="paginationElement">
           <label>sorting</label>
           <select {...register("sortAsc")}>
-            <option value={true}>ascenting</option>
+            <option value={true}>ascending</option>
             <option value={false}>descending</option>
           </select>
         </section>

@@ -16,6 +16,9 @@ const CreateAccountCard = () => {
   const navigate = useNavigate();
 
   const onSubmit = (formData) => {
+
+    console.log("reg", formData);
+
     const accoutData = {
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -28,7 +31,8 @@ const CreateAccountCard = () => {
       .then((response) => {
         localStorage.setItem("token", response.data.token);
         reset();
-        navigate("/advertisements");
+        navigate("/");
+        alert("registration succesful");
       })
       .catch((error) => console.log(error));
   };
@@ -77,7 +81,7 @@ const CreateAccountCard = () => {
                 message: "password must be at least 5 symbols long",
               },
               maxLength: {
-                value: 5,
+                value: 50,
                 message: "password must be no longer than 99 symbols",
               },
             })}

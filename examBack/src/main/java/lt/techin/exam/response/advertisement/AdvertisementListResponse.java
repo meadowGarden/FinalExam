@@ -1,4 +1,4 @@
-package lt.techin.exam.response.book;
+package lt.techin.exam.response.advertisement;
 
 import lombok.Getter;
 import lombok.Setter;

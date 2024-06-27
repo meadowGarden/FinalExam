@@ -10,6 +10,9 @@ const AdvertDetailedInfo = ({ data }) => {
   const { adDescription, price, city } = data;
   const [adData, setAdData] = useState(data);
 
+  const token =
+    useUserStore((state) => state.token) || localStorage.getItem("authToken");
+
   const {
     register,
     reset,
@@ -28,7 +31,11 @@ const AdvertDetailedInfo = ({ data }) => {
     };
 
     axios
-      .put(`http://localhost:8080/api/advertisements/${data.id}`, updateAd)
+      .put(`http://localhost:8080/api/advertisements/${data.id}`, updateAd, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         setAdData(response.data);
         reset(updateAd);
@@ -40,7 +47,11 @@ const AdvertDetailedInfo = ({ data }) => {
     if (!window.confirm("do you really want to delete advertisement?")) return;
 
     axios
-      .delete(`http://localhost:8080/api/advertisements/${data.id}`)
+      .delete(`http://localhost:8080/api/advertisements/${data.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => console.log(response))
       .catch((error) => console.log(error));
   };

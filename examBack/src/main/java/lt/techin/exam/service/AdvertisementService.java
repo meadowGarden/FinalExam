@@ -8,8 +8,8 @@ import lt.techin.exam.entity.AdvertisementCategory;
 import lt.techin.exam.repository.AdvertisementCategoryRepository;
 import lt.techin.exam.repository.AdvertisementRepository;
 import lt.techin.exam.request.advertisement.AdvertisementListRequest;
-import lt.techin.exam.response.book.AdvertisementListResponse;
-import lt.techin.exam.response.book.AdvertisementResponse;
+import lt.techin.exam.response.advertisement.AdvertisementListResponse;
+import lt.techin.exam.response.advertisement.AdvertisementResponse;
 import lt.techin.exam.utilities.mapper.AdvertisementMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +19,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -40,19 +42,19 @@ public class AdvertisementService {
 
         final Advertisement advertToAdd = AdvertisementMapper.DTOToAdvert(dto);
 
-//            if (dto.getCategories() != null) {
-//                final List<AdvertisementCategory> categories = new ArrayList<>();
-//                for (AdvertisementCategory c : dto.getCategories()) {
-//                    final Optional<AdvertisementCategory> categoryToAdd = bookCategoryRepository
-//                            .findByCategoryNameIgnoreCase(c.getCategoryName());
-//                    categoryToAdd.ifPresent(bookToAdd::addCategory);
-//                }
-//                bookToAdd.setCategories(categories);
-//            }
+            if (dto.getCategories() != null) {
+                final List<AdvertisementCategory> categories = new ArrayList<>();
+                for (AdvertisementCategory c : dto.getCategories()) {
+                    final Optional<Advertisement> advertisementCategory = advertisementRepository
+                            .findById(c.getId());
+//                    advertisementCategory.ifPresent(advertToAdd::addCategory);
+                }
+                advertToAdd.setCategories(categories);
+            }
 
-        final Advertisement savedBook = advertisementRepository.save(advertToAdd);
-        log.info("added book, with id {}", savedBook.getId());
-        return new AdvertisementResponse(savedBook, HttpStatus.CREATED);
+        final Advertisement savedAd = advertisementRepository.save(advertToAdd);
+        log.info("added ad, with id {}", savedAd.getId());
+        return new AdvertisementResponse(savedAd, HttpStatus.CREATED);
 
     }
 
@@ -74,7 +76,7 @@ public class AdvertisementService {
 
         log.info("retrieving containing {}", nameContains);
         Page<Advertisement> page = advertisementRepository
-                .findByAdNameContainingIgnoreCaseAndCategoriesCategoryNameContainingIgnoreCase(
+                .findByAdNameContainingIgnoreCaseOrCategoriesCategoryNameContainingIgnoreCase(
                         pageable,
                         request.getNameContains(),
                         request.getCategoryContains());
@@ -103,8 +105,9 @@ public class AdvertisementService {
             adToUpdate.setAdDescription(dto.getAdDescription());
             adToUpdate.setPrice(dto.getPrice());
             adToUpdate.setCity(dto.getCity());
+            advertisementRepository.save(adToUpdate);
 
-            log.info("ad with isbn {} has been updated", adToUpdate.getId());
+            log.info("ad with id {} has been updated", adToUpdate.getId());
             return new AdvertisementResponse(adToUpdate, HttpStatus.OK);
         }
 
@@ -118,16 +121,16 @@ public class AdvertisementService {
         final Optional<Advertisement> advertisement = advertisementRepository.findById(id);
 
         if (advertisement.isPresent()) {
-            final Advertisement bookToDelete = advertisement.get();
+            final Advertisement adToDelete = advertisement.get();
 
-            for (AdvertisementCategory category : bookToDelete.getCategories()) {
-                category.getAdvertisements().remove(bookToDelete);
+            for (AdvertisementCategory category : adToDelete.getCategories()) {
+                category.getAdvertisements().remove(adToDelete);
                 advertisementCategoryRepository.save(category);
             }
-            bookToDelete.getCategories().clear();
-            advertisementRepository.save(bookToDelete);
+            adToDelete.getCategories().clear();
+            advertisementRepository.save(adToDelete);
 
-            advertisementRepository.delete(bookToDelete);
+            advertisementRepository.delete(adToDelete);
             log.info("ad with id {} has been deleted", id);
             return HttpStatus.NO_CONTENT;
         }

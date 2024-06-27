@@ -27,9 +27,12 @@ const NavBar = () => {
   return (
     <Navbar bg="dark" data-bs-theme="dark">
       <Container>
-        <Navbar.Brand href="/">home</Navbar.Brand>
+        {user.userRole === "" && <Navbar.Brand href="/">home</Navbar.Brand>}
+
         <Nav className="me-auto">
-          {user.userRole !== "" && <Nav.Link href="advertisements">advertisements</Nav.Link>}
+          {user.userRole !== "" && (
+            <Nav.Link href="advertisements">advertisements</Nav.Link>
+          )}
 
           {user.userRole === "ADMINISTRATOR" && (
             <Nav.Link href="categories">categories</Nav.Link>

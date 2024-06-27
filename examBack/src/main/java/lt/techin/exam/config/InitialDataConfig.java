@@ -47,15 +47,10 @@ public class InitialDataConfig {
                 .build();
         advertisementCategoryRepository.save(adCat01);
 
-
-
-
-
-
-
-
-
-
+        AdvertisementCategory adCat02 = AdvertisementCategory.builder()
+                .categoryName("paslaugos")
+                .build();
+        advertisementCategoryRepository.save(adCat02);
     }
 
     public void addAds() {

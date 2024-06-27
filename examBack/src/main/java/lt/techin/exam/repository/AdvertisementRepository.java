@@ -1,6 +1,7 @@
 package lt.techin.exam.repository;
 
 import lt.techin.exam.entity.Advertisement;
+import lt.techin.exam.entity.AdvertisementCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,5 +13,7 @@ import java.util.UUID;
 @Repository
 public interface AdvertisementRepository extends JpaRepository<Advertisement, UUID> {
 
-    Page<Advertisement> findByAdNameContainingIgnoreCaseAndCategoriesCategoryNameContainingIgnoreCase(Pageable pageable, String adName, String category);
+    Page<Advertisement> findByAdNameContainingIgnoreCaseOrCategoriesCategoryNameContainingIgnoreCase(
+            Pageable pageable, String bookName, String bookCategory);
+
 }

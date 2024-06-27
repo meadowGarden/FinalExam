@@ -88,7 +88,8 @@ public class AdvertisementCategoryService {
 
 
     public AdvertisementCategoryResponse retrieveBookCategoryByName(String categoryName) {
-        final Optional<AdvertisementCategory> advertisementCategory = advertisementCategoryRepository.findByCategoryNameIgnoreCase(categoryName);
+        final Optional<AdvertisementCategory> advertisementCategory = advertisementCategoryRepository
+                .findByCategoryNameIgnoreCase(categoryName);
 
         if (advertisementCategory.isPresent()) {
             final AdvertisementCategory bookCategoryToRetrieve = advertisementCategory.get();
@@ -102,7 +103,8 @@ public class AdvertisementCategoryService {
 
 
     public AdvertisementCategoryResponse updateBookCategoryByName(String categoryName, AdvertisementCategoryDTO dto) {
-        final Optional<AdvertisementCategory> bookCategory = advertisementCategoryRepository.findByCategoryNameIgnoreCase(categoryName);
+        final Optional<AdvertisementCategory> bookCategory = advertisementCategoryRepository
+                .findByCategoryNameIgnoreCase(categoryName);
 
         if (bookCategory.isPresent()) {
             final AdvertisementCategory bookCategoryToUpdate = bookCategory.get();
@@ -117,7 +119,8 @@ public class AdvertisementCategoryService {
 
 
     public HttpStatus deleteBookCategoryByName(String categoryName) {
-        final Optional<AdvertisementCategory> advertisementCategory = advertisementCategoryRepository.findByCategoryNameIgnoreCase(categoryName);
+        final Optional<AdvertisementCategory> advertisementCategory = advertisementCategoryRepository
+                .findByCategoryNameIgnoreCase(categoryName);
 
         if (advertisementCategory.isPresent()) {
             final AdvertisementCategory categoryToDelete = advertisementCategory.get();

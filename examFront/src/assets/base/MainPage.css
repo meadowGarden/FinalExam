@@ -1,6 +1,10 @@
 .mainPage {
   background-color: var(--site-background-color);
 
+  align-self: center;
+  padding: 5em;
+  text-align: center;
+
   display: grid;
   grid-template-columns: 1fr 1fr;
 }

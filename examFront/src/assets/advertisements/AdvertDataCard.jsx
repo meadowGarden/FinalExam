@@ -137,9 +137,9 @@ const AdvertDataCard = ({ setAds }) => {
         <section className="paginationElement">
           <label>number of ads</label>
           <select {...register("pageSize")} placeholder="page number">
+            <option value={5}>5</option>
             <option value={10}>10</option>
-            <option value={20}>20</option>
-            <option value={30}>30</option>
+            <option value={15}>15</option>
           </select>
         </section>
 
